@@ -130,13 +130,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\Material.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\fragment_core.glsl" />
     <None Include="Assets\fragment_core2.glsl" />
     <None Include="Assets\vertex_core.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Headers\Material.h" />
+    <ClInclude Include="Headers\Mesh.h" />
+    <ClInclude Include="Headers\Shader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\images.jpeg" />
+    <Image Include="Assets\tex.jpg" />
+    <Image Include="Assets\wood.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
