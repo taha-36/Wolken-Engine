@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\abdel\OneDrive\Documents\Libraries\OpenGL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\abdel\source\repos\Engine\Engine\Headers;C:\Users\abdel\OneDrive\Documents\Libraries\OpenGL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,16 +135,17 @@
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\fragment_core.glsl" />
-    <None Include="Assets\fragment_core2.glsl" />
     <None Include="Assets\vertex_core.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\Material.h" />
     <ClInclude Include="Headers\Mesh.h" />
     <ClInclude Include="Headers\Shader.h" />
+    <ClInclude Include="Headers\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\images.jpeg" />

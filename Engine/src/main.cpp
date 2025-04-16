@@ -9,10 +9,11 @@
 #include <string>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "../Headers/Shader.h"
 #include <vector>
-#include "../Headers/Mesh.h"
-#include"../Headers/Material.h"
+#include "Shader.h"
+#include "Mesh.h"
+#include "Material.h"
+#include "Texture.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 int main(void)
@@ -54,12 +55,28 @@ int main(void)
 
     /* Shaders */
     Shader shader("assets/vertex_core.glsl", "assets/fragment_core.glsl");
+    Shader shader2("assets/vertex_core.glsl", "assets/fragment_core.glsl");
+    Texture tex("assets/tex.jpg");
+    Texture texWood("assets/wood.jpg");
     ///* vertex array */
     std::vector<float> poses = {
         -0.5f, -0.5f, 0.0f,
         -0.5f,  0.5f, 0.0f,
          0.5f, -0.5f, 0.0f,
          0.5f,  0.5f, 0.0f,
+    };
+    std::vector<float> uv = {
+        0.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f
+    };
+
+    std::vector<float> poses2 = {
+     0.85f, -0.66f, 0.0f,
+     0.5f,  0.69f, 0.0f,
+     0.72f, -0.5f, 0.0f,
+     0.88f,  0.5f, 0.0f,
     };
 
     std::vector<float> colors = {
@@ -75,12 +92,28 @@ int main(void)
         0, 1, 2,
         2, 1, 3
     };
+    std::vector<unsigned int> indices2 =
+    {
+        0, 1, 2,
+        2, 1, 3
+    };
 
-    Mesh mesh(poses, indices, colors);
+    Mesh mesh(poses, indices);
+    Mesh mesh2(poses2, indices);
 
     Material mat;
+    Material mat2;
+
+    mat2.shader = &shader2;
     mat.shader = &shader;
+    mat.texture = &tex;
+    mat2.texture = &texWood;
+
+
     mesh.material = &mat;
+    mesh.SetUV(uv);
+    mesh2.material = &mat2;
+    mesh2.SetUV(uv);
 
 
     /* resize window content */
@@ -94,6 +127,7 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT);
 
         mesh.Render();
+        mesh2.Render();
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 

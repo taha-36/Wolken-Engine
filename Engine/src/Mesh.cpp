@@ -1,12 +1,11 @@
-#include "../Headers/Mesh.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
+#include "Mesh.h"
 
 Mesh::Mesh(std::vector<float> vertsPoses, std::vector<unsigned int> indicies, std::vector<float> vertsColors)
 {
     VAO = 0;
     colorsVBO = 0;
     posesVBO = 0;
+    uvVBO = 0;
     EBO = 0;
 
     this->vertsPoses = vertsPoses;
@@ -94,51 +93,34 @@ void Mesh::ActivateMesh()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 
+}
+void Mesh::SetUV(std::vector<float> uv)
+{
+    //Bind to the VAO of th current mesh
+    glBindVertexArray(VAO);
 
+    //Generate the buffer
+    glGenBuffers(1, &uvVBO);
 
-
-    //textures coordinates
-    //glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    //glEnableVertexAttribArray(2);
-
-    //textures
-
-    //glGenTextures(1, &texture1);
-    //glBindTexture(GL_TEXTURE_2D, texture1);
-
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-    //// load image
-    //int width, height, nChannels;
-    //stbi_set_flip_vertically_on_load(true);
-    //unsigned char* data = stbi_load("assets/tex.jpg", &width, &height, &nChannels, 0);
-
-    //if (data)
-    //{
-    //    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-    //    glGenerateMipmap(GL_TEXTURE_2D);
-    //}
-    //else
-    //{
-    //    std::cout << "Failed to load texture" << std::endl;
-    //}
-
+    glBindBuffer(GL_ARRAY_BUFFER, uvVBO);
+    glBufferData(GL_ARRAY_BUFFER, uv.size() * sizeof(float), uv.data(), GL_STATIC_DRAW);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(0));
+    glEnableVertexAttribArray(2);
 }
 
 void Mesh::Render() {
     // Activate the VAO
     glBindVertexArray(VAO);
 
-    //glActiveTexture(GL_TEXTURE0);
-    //glBindTexture(GL_TEXTURE_2D, texture1);
-
     material->shader->Activate();
     material->shader->setBool("useVertsColors", useVertsColors);
-    //shader.setInt("texture1", 0);
+    int useTexture = material->texture ? 1 : 0;
+    material->shader->setInt("useTex", 1);
+    if (useTexture)
+    {
+        material->texture->Render();
+        material->shader->setInt("texture1", 0);
+    }
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
     // Unbind VAO (optional)

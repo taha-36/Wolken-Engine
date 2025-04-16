@@ -1,5 +1,5 @@
-#include "../Headers/Material.h"
+#include "Material.h"
 
 Material::Material()
 {
-};
+}

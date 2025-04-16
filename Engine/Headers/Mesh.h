@@ -12,6 +12,7 @@ class Mesh
 public:
 	std::vector<float> vertsPoses;
 	std::vector<float> vertsColors;
+	std::vector<float> uv;
 	std::vector<unsigned int> indices;
 
 	int vertCount;
@@ -20,6 +21,7 @@ public:
 	unsigned int VAO;
 	unsigned int posesVBO;
 	unsigned int colorsVBO;
+	unsigned int uvVBO;
 	unsigned int EBO;
 
 	bool useVertsColors;
@@ -33,4 +35,5 @@ public:
 	void ActivateMesh();
 	void ActivateMeshColorless();
 	void Render();
+	void SetUV(std::vector<float> uv);
 };

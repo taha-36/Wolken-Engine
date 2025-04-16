@@ -26,4 +26,5 @@ public :
 	void setMat4(const std::string& name, glm::mat4 val);
 	void setInt(const std::string& name, int value);
 	void setBool(const std::string& name, bool value);
+	void setFloat(const std::string& name, float value);
 };

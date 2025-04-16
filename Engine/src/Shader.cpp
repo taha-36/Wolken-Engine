@@ -1,4 +1,4 @@
-#include "../Headers/Shader.h"
+#include "Shader.h"
 
 Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath)
 {
@@ -36,6 +36,10 @@ void Shader::setInt(const std::string& name, int value) {
 void Shader::setBool(const std::string& name, bool value)
 {
 	glUniform1i(glGetUniformLocation(id, name.c_str()), value);
+}
+void Shader::setFloat(const std::string& name, float value)
+{
+	glUniform1f(glGetUniformLocation(id, name.c_str()), value);
 }
 
 std::string Shader::loadShaderSrc(const char* filename)
