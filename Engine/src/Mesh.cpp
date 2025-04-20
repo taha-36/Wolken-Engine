@@ -107,22 +107,3 @@ void Mesh::SetUV(std::vector<float> uv)
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(0));
     glEnableVertexAttribArray(2);
 }
-
-void Mesh::Render() {
-    // Activate the VAO
-    glBindVertexArray(VAO);
-
-    material->shader->Activate();
-    material->shader->setBool("useVertsColors", useVertsColors);
-    int useTexture = material->texture ? 1 : 0;
-    material->shader->setInt("useTex", 1);
-    if (useTexture)
-    {
-        material->texture->Render();
-        material->shader->setInt("texture1", 0);
-    }
-    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
-
-    // Unbind VAO (optional)
-    glBindVertexArray(0);
-}

@@ -5,7 +5,6 @@
 #include <KHR/khrplatform.h>
 #include "Shader.h"
 #include <vector>
-#include "Material.h"
 
 class Mesh
 {
@@ -26,14 +25,11 @@ public:
 
 	bool useVertsColors;
 
-	Material* material;
-
 	Mesh(std::vector<float> vertsPoses, std::vector<unsigned int> indicies, std::vector<float> vertsColours);
 	Mesh(std::vector<float> vertsPoses, std::vector<unsigned int> indicies);
 	~Mesh();
 
 	void ActivateMesh();
 	void ActivateMeshColorless();
-	void Render();
 	void SetUV(std::vector<float> uv);
 };

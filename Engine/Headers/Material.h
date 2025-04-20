@@ -1,11 +1,11 @@
 #pragma once
 #include"Shader.h"
 #include"Texture.h"
+#include "Component.h"
 
-class Material
+class Material : public Component
 {
 public:
 	Shader* shader;
-	Material();
 	Texture* texture;
 };
