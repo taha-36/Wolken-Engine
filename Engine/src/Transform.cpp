@@ -11,8 +11,4 @@ void Transform::Rotate(float degrees, glm::vec3 dir)
 	rotation = rotation * rot;
 	eulerAngles = glm::degrees(glm::eulerAngles(rotation));
 	transMatrix = glm::rotate(transMatrix, degrees, dir);
-	std::cout << "Euler: ("
-		<< eulerAngles.x << ", "
-		<< eulerAngles.y << ", "
-		<< eulerAngles.z << ")" << std::endl;
 }

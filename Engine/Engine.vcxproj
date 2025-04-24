@@ -104,12 +104,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>imgui;Headers;C:\Users\abdel\OneDrive\Documents\Libraries\OpenGL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Core;imgui;Headers;OpenGL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>src;Headers;C:\Users\abdel\OneDrive\Documents\Libraries\OpenGL\Include\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>src;Headers;OpenGL\Include\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -130,8 +130,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Headers\Globals.h" />
-    <ClCompile Include="Headers\Clock.cpp" />
+    <ClCompile Include="Core\Globals.h" />
+    <ClCompile Include="Core\Clock.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -144,23 +144,26 @@
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\MeshRenderer.cpp" />
-    <ClCompile Include="Headers\SceneCamera.cpp" />
+    <ClCompile Include="Core\SceneCamera.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\fragment_core.glsl" />
+    <None Include="Assets\FrameFrag.glsl" />
+    <None Include="Assets\FrameVert.glsl" />
     <None Include="Assets\vertex_core.glsl" />
+    <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Headers\Clock.h" />
+    <ClInclude Include="Core\Clock.h" />
     <ClInclude Include="Headers\Component.h" />
     <ClInclude Include="Headers\Entity.h" />
     <ClInclude Include="Headers\Material.h" />
     <ClInclude Include="Headers\Mesh.h" />
     <ClInclude Include="Headers\MeshRenderer.h" />
-    <ClInclude Include="Headers\SceneCamera.h" />
+    <ClInclude Include="Core\SceneCamera.h" />
     <ClInclude Include="Headers\Shader.h" />
     <ClInclude Include="Headers\Texture.h" />
     <ClInclude Include="Headers\Transform.h" />
