@@ -154,7 +154,6 @@
     <None Include="Assets\FrameFrag.glsl" />
     <None Include="Assets\FrameVert.glsl" />
     <None Include="Assets\vertex_core.glsl" />
-    <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Clock.h" />

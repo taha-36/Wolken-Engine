@@ -309,9 +309,10 @@ int main(void)
             ImGuiID dock_main_id = dockspace_id;
             ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.25f, nullptr, &dock_main_id);
             ImGuiID dock_id_down = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.25f, nullptr, &dock_main_id);
+            ImGuiID dock_id_top = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Up, 0.25f, nullptr, &dock_main_id);
 
             // Dock windows
-            ImGui::DockBuilderDockWindow("Scene", dock_main_id);
+            ImGui::DockBuilderDockWindow("Scene", dock_id_top);
             ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
             ImGui::DockBuilderDockWindow("Explorer", dock_id_down);
 
