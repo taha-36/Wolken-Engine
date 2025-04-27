@@ -23,6 +23,7 @@
 #include "MeshRenderer.h"
 #include "Clock.h"
 #include "SceneCamera.h"
+#include "Scene.h"
 #include "Globals.h"
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 int init(GLFWwindow*& window);
@@ -31,7 +32,7 @@ int main(void)
     init(Globals::Instance().WINDOW);
 
     /* Shaders */
-    Shader shader("assets/vertex_core.glsl", "assets/fragment_core.glsl");
+    Shader shader("assets/DefaultVert.glsl", "assets/DefaultFrag.glsl");
     Texture tex("assets/tex.jpg");
     Texture texWood("assets/wood.jpg");
 
@@ -134,6 +135,37 @@ int main(void)
         0.6f, 1.0f, 0.2f,
         1.0f, 0.2f, 1.0f,
     };
+    std::vector<float> colors2 = {
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 1.0f,
+    };
     std::vector<unsigned int> indices = {
         // Front face
         0, 1, 2,
@@ -160,87 +192,39 @@ int main(void)
         21,22,23
     };
 
-    Mesh mesh(poses, indices, colors);
+    Mesh mesh(poses, indices);
     Mesh mesh2(poses, indices);
+
     Material mat;
     Material mat2;
     Entity ent;
     Entity ent2;
-    MeshRenderer mr2 = ent2.AddComponent<MeshRenderer>();
-    MeshRenderer mr = ent.AddComponent<MeshRenderer>();
+    Entity ent3;
 
-    mr2.mesh = &mesh2;
-    mr2.material = &mat2;
-    mr.mesh = &mesh;
-    mr.material = &mat;
+    MeshRenderer* mr = ent.AddComponent<MeshRenderer>();
+    MeshRenderer* mr2 = ent2.AddComponent<MeshRenderer>();
+    MeshRenderer* mr3 = ent3.AddComponent<MeshRenderer>();
+
+    mr3->mesh = &mesh2;
+    mr3->material = &mat2;
+
+    mr2->mesh = &mesh2;
+    mr2->material = &mat2;
+
+    mr->mesh = &mesh;
+    mr->material = &mat;
 
     mat.shader = &shader;
     mat.texture = &texWood;
     mat2.shader = &shader;
-    mat2.texture = &tex;
+    mat2.texture = &texWood;
+
     mesh.SetUV(uv);
     mesh2.SetUV(uv);
     ent2.transform.Translate(glm::vec3(-1.0f, 0.0f, 5.0f));
     ent.transform.Translate(glm::vec3(1.0f, 0.0f, 5.0f));
     ent.transform.Rotate(glm::radians(45.0f), glm::vec3(1.0f));
-
-
-
-    /* FrameBuffer Demo */
-    float rectangleVertices[] = {
-        // Positions   // Texture Coords
-         1.0f,  1.0f,  1.0f, 1.0f,  // Top Right
-         1.0f, -1.0f,  1.0f, 0.0f,  // Bottom Right
-        -1.0f, -1.0f,  0.0f, 0.0f,  // Bottom Left
-        -1.0f,  1.0f,  0.0f, 1.0f   // Top Left
-    };
-    unsigned int rectIndices[] = {
-    0, 1, 3,  // First Triangle
-    1, 2, 3   // Second Triangle
-    };
-
-    unsigned int rectVAO, rectVBO, rectEBO;
-    glGenVertexArrays(1, &rectVAO);
-    glGenBuffers(1, &rectVBO);
-    glGenBuffers(1, &rectEBO);
-    glBindVertexArray(rectVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, rectVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(rectangleVertices), &rectangleVertices, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rectEBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), &rectIndices, GL_STATIC_DRAW);
-
-    Shader frameProgram("Assets/FrameVert.glsl", "Assets/FrameFrag.glsl");
-
-    frameProgram.Activate();
-    glUniform1i(glGetUniformLocation(frameProgram.id, "screenTexture"), 0);
-
-
-
-
-
-    GLuint FBO;
-    glGenFramebuffers(1, &FBO);
-    glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-
-    GLuint sceneTexture;
-    glGenTextures(1, &sceneTexture);
-    glBindTexture(GL_TEXTURE_2D, sceneTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Globals::Instance().SCR_WIDTH, Globals::Instance().SCR_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, sceneTexture, 0);
-
-    GLuint RBO;
-    glGenRenderbuffers(1, &RBO);
-    glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, Globals::Instance().SCR_WIDTH, Globals::Instance().SCR_HEIGHT);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
-
+    ent3.transform.Translate(glm::vec3(4.0f, 0.0f, 5.0f));
 
     //imgui shit
     IMGUI_CHECKVERSION();
@@ -250,32 +234,33 @@ int main(void)
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(Globals::Instance().WINDOW, true);
     ImGui_ImplOpenGL3_Init("#version 330 core");
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(Globals::Instance().WINDOW))
     {
-        glfwSetFramebufferSizeCallback(Globals::Instance().WINDOW, framebuffer_size_callback);
+        glViewport(0, 0, Globals::Instance().SCR_WIDTH, Globals::Instance().SCR_HEIGHT);
         glfwPollEvents();
+
         Clock::Tick();
         SceneCamera::Activate();
-
 
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        Scene::Instance().RenderScene();
 
-        glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-        glViewport(0, 0, Globals::Instance().SCR_WIDTH, Globals::Instance().SCR_HEIGHT);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glEnable(GL_DEPTH_TEST);
-        mr.Render();
-        mr2.Render();
+        for (Entity* ent : Globals::Instance().SCENE_ENTS)
+        {
+            MeshRenderer* mr = ent->GetComponent<MeshRenderer>();
+            if(mr != nullptr)
+                mr->Render();
+        }
 
+        SceneCamera::ProcessTargetedObject();
 
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glDisable(GL_DEPTH_TEST);
+        Scene::Instance().ClearBuffer();
 
         ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -323,8 +308,11 @@ int main(void)
         ImGui::End();
 
         ImGui::Begin("Scene", 0, ImGuiWindowFlags_NoScrollbar);
-        ImGui::Image((ImTextureID)(intptr_t)sceneTexture, ImVec2(Globals::Instance().SCR_WIDTH, Globals::Instance().SCR_HEIGHT), ImVec2(0, 1), ImVec2(1, 0));
+        if (ImGui::IsWindowHovered())
+            Globals::Instance().Can_MoveScene = true;
+        ImGui::Image((ImTextureID)(intptr_t)(Scene::Instance().sceneTexture), ImVec2(Globals::Instance().SCR_WIDTH, Globals::Instance().SCR_HEIGHT), ImVec2(0, 1), ImVec2(1, 0));
         ImGui::End();
+
 
         ImGui::Begin("Inspector", 0, ImGuiWindowFlags_NoScrollbar);
         ImGui::End();
@@ -338,12 +326,7 @@ int main(void)
 
         glfwSwapBuffers(Globals::Instance().WINDOW);
     }
-
-    glDeleteVertexArrays(1, &rectVAO);
-    glDeleteBuffers(1, &rectVBO);
-    glDeleteFramebuffers(1, &FBO);
-    glDeleteRenderbuffers(1, &RBO);
-
+    Scene::Instance().Clean();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

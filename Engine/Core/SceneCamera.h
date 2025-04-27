@@ -4,15 +4,19 @@
 #include "imgui_internal.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Globals.h"
 #include "Clock.h"
+#include "Entity.h"
+#include "Scene.h"
 
 class SceneCamera {
 public:
     static void Activate();
-    static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+    static void ProcessTargetedObject();
 
     static glm::mat4 VIEW_MAT;
     static glm::mat4 PROJ_MAT;

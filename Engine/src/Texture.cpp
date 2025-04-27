@@ -33,8 +33,3 @@ Texture::Texture(const char* texturePath)
         std::cout << "Failed to load texture" << std::endl;
     }
 }
-void Texture::Render()
-{
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texId);
-}

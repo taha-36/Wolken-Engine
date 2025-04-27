@@ -4,16 +4,20 @@
 #include <typeindex>
 #include <memory>
 #include <vector>
+#include <random>
+#include "Globals.h"
 #include "Transform.h"
 class Entity {
 public:
     Transform transform;
+    unsigned int id;
+
     template <typename T, typename... Args>
-    T& AddComponent(Args&&... args) {
+    T* AddComponent(Args&&... args) {
         static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
 
         auto comp = std::make_unique<T>(std::forward<Args>(args)...);
-        T& ref = *comp;
+        T* ptr = comp.get();
 
         comp->owner = this;
 
@@ -21,22 +25,22 @@ public:
         components[index] = std::move(comp);
         orderedComponents.push_back(components[index].get());
 
-        return ref;
+        return ptr;
     }
     template <typename T>
-    T& AddComponent(T& existingComponent) {
+    T* AddComponent(T& existingComponent) {
         static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
 
         std::type_index index(typeid(T));
         auto comp = std::make_unique<T>(std::move(existingComponent));
-        T& ref = *comp;
+        T* ptr = comp.get();
 
         comp->owner = this;
 
         components[index] = std::move(comp);
         orderedComponents.push_back(components[index].get());
 
-        return ref;
+        return ptr;
     }
 
     template <typename T>
@@ -50,7 +54,11 @@ public:
     const std::vector<Component*>& GetAllComponents() const {
         return orderedComponents;
     }
-
+    Entity()
+    {
+        Globals::Instance().SCENE_ENTS.push_back(this);
+        id = rand();
+    }
 private:
     std::unordered_map<std::type_index, std::unique_ptr<Component>> components;
     std::vector<Component*> orderedComponents;

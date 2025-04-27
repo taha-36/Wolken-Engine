@@ -27,4 +27,5 @@ public :
 	void setInt(const std::string& name, int value);
 	void setBool(const std::string& name, bool value);
 	void setFloat(const std::string& name, float value);
+	void setUInt(const std::string& name, int value);
 };
