@@ -19,8 +19,8 @@ void MeshRenderer::Render()
         material->shader->setInt("texture1", 0);
     }
     material->shader->setMat4("model", owner->transform.transMatrix);
-    material->shader->setMat4("view", SceneCamera::VIEW_MAT);
-    material->shader->setMat4("proj", SceneCamera::PROJ_MAT);
+    material->shader->setMat4("view", SceneCamera::Instance().VIEW_MAT);
+    material->shader->setMat4("proj", SceneCamera::Instance().PROJ_MAT);
     glDrawElements(GL_TRIANGLES, mesh->indexCount, GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0);

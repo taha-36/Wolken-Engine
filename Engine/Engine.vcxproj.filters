@@ -60,12 +60,6 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Clock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\SceneCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OpenGL\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -419,6 +413,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Assimp\include\assimp\ZipArchiveIOSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,8 +6,12 @@ class Entity;
 
 class Globals {
 public:
-    unsigned int SCR_WIDTH = 1920;
-    unsigned int SCR_HEIGHT = 1080;
+    unsigned int SCR_WIDTH = 800;
+    unsigned int SCR_HEIGHT = 800;
+
+    unsigned int sceneWidth = 800;
+    unsigned int sceneHeight = 800;
+    
     bool Can_MoveScene = false;
     std::vector<Entity*> SCENE_ENTS;
 
@@ -18,9 +22,7 @@ public:
         return instance;
     }
 
-    Globals(const Globals&) = delete;
-    void operator=(const Globals&) = delete;
-
 private:
-    Globals() {}
+    Globals() {
+    }
 };

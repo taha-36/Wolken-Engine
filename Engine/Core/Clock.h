@@ -3,8 +3,18 @@
 class Clock
 {
 public:
-	static float deltaTime;
-	static float lastFrame;
+	static Clock& Instance()
+	{
+		static Clock instance;
+		return instance;
+	}
+	float deltaTime = 0.0f;
+	float lastFrame = 0.0f;
 
-	static void Tick();
+	void Tick()
+	{
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - Clock::lastFrame;
+		lastFrame = currentFrame;
+	}
 };
