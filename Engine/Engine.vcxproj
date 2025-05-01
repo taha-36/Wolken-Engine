@@ -162,6 +162,7 @@
     <None Include="Assimp\include\assimp\SmoothingGroups.inl" />
     <None Include="Assimp\include\assimp\vector2.inl" />
     <None Include="Assimp\include\assimp\vector3.inl" />
+    <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assimp\include\assimp\aabb.h" />
@@ -250,17 +251,17 @@
     <ClInclude Include="Assimp\include\assimp\ZipArchiveIOSystem.h" />
     <ClInclude Include="Core\Clock.h" />
     <ClInclude Include="Headers\Component.h" />
-    <ClInclude Include="Headers\Entity.h" />
+    <ClInclude Include="Core\Entity.h" />
     <ClInclude Include="Headers\FrameBuffer.h" />
     <ClInclude Include="Headers\Material.h" />
     <ClInclude Include="Headers\Mesh.h" />
     <ClInclude Include="Headers\MeshRenderer.h" />
     <ClInclude Include="Core\SceneCamera.h" />
-    <ClInclude Include="Headers\Scene.h" />
+    <ClInclude Include="Core\Scene.h" />
     <ClInclude Include="Headers\Shader.h" />
     <ClInclude Include="Headers\Texture.h" />
     <ClInclude Include="Headers\Transform.h" />
-    <ClInclude Include="Headers\UI.h" />
+    <ClInclude Include="Core\UI.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />

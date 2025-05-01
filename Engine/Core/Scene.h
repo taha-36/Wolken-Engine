@@ -1,5 +1,6 @@
 #pragma once
 #include <glad/glad.h>
+#include "ImGui.h"
 #include "FrameBuffer.h"
 #include "Shader.h"
 class Scene
@@ -8,6 +9,7 @@ public:
     GLuint sceneTexture = 0;
     GLuint idTexture = 0;
     FrameBuffer sceneFrame;
+
     static Scene& Instance() {
         static Scene instance;
         return instance;
@@ -75,6 +77,39 @@ public:
         GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
         if (status != GL_FRAMEBUFFER_COMPLETE) {
             std::cout << "Framebuffer not complete! Status: " << status << std::endl;
+        }
+    }
+    void ProcessTargetedObject()
+    {
+        if (glfwGetMouseButton(Globals::Instance().WINDOW, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && Globals::Instance().Can_MoveScene)
+        {
+            double xpos, ypos;
+            double i, j;
+            double w = ImGui::GetWindowSize().x;
+            double h = ImGui::GetWindowSize().y;
+            double f = ImGui::GetWindowPos().x;
+            double z = ImGui::GetWindowPos().y;
+            glfwGetCursorPos(Globals::Instance().WINDOW, &xpos, &ypos);
+
+            i = xpos - f - 8;
+            j = h - (ypos - z) - 10;
+
+            glBindFramebuffer(GL_FRAMEBUFFER, Scene::Instance().sceneFrame.FBO);
+            glReadBuffer(GL_COLOR_ATTACHMENT1);
+
+            Globals::Instance().selectedEnt = nullptr;
+            GLuint pixel;
+            glReadPixels(i, j, 1, 1, GL_RED_INTEGER, GL_UNSIGNED_INT, &pixel);
+
+            for (Entity* var : Globals::Instance().SCENE_ENTS) 
+            {
+                if (pixel == var->id)
+                {
+                    Globals::Instance().selectedEnt = var;
+                    break;
+                }
+            }
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
     }
 private:

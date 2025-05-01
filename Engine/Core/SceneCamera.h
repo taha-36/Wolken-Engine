@@ -1,4 +1,3 @@
-// SceneCamera.h
 #pragma once
 #include "imgui.h"
 #include "imgui_internal.h"
@@ -53,32 +52,6 @@ public:
             Globals::Instance().Can_MoveScene = false;
         }
         VIEW_MAT = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-    }
-    void ProcessTargetedObject()
-    {
-        if (glfwGetMouseButton(Globals::Instance().WINDOW, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && Globals::Instance().Can_MoveScene)
-        {
-            double xpos, ypos;
-            double i, j;
-            double w = ImGui::GetWindowSize().x;
-            double h = ImGui::GetWindowSize().y;
-            double f = ImGui::GetWindowPos().x;
-            double z = ImGui::GetWindowPos().y;
-            glfwGetCursorPos(Globals::Instance().WINDOW, &xpos, &ypos);
-
-            i = xpos - f - 8;
-            j = h - (ypos - z) - 10;
-            //std::cout <<"Virtual: " << i << ", " << j << std::endl;
-
-            glBindFramebuffer(GL_FRAMEBUFFER, Scene::Instance().sceneFrame.FBO);
-            glReadBuffer(GL_COLOR_ATTACHMENT1);
-
-            GLuint pixel;
-            glReadPixels(i, j, 1, 1, GL_RED_INTEGER, GL_UNSIGNED_INT, &pixel);
-
-            std::cout << pixel << std::endl;
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        }
     }
     void ProcessKeyboardInput()
     {

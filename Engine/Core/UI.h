@@ -45,8 +45,6 @@ public:
                     mr->Render();
             }
 
-
-
             Scene::Instance().ClearBuffer();
         }
         ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -96,6 +94,26 @@ public:
         ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
         ImGui::End();
 
+        if (ImGui::BeginMainMenuBar())
+        {
+            if (ImGui::BeginMenu("Add"))
+            {
+                if (ImGui::MenuItem("Empty Entity")) {
+                    // Handle open
+                    AddEntity();
+                }
+                if (ImGui::MenuItem("Cube")) {
+                    AddCube();
+                }
+                if (ImGui::MenuItem("Material", "Ctrl+S")) {
+                    // Handle save
+                }
+                ImGui::EndMenu();
+            }
+
+            ImGui::EndMainMenuBar();
+        }
+
         ImGui::Begin("Scene", 0, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
         if (ImGui::IsWindowHovered())
         {
@@ -113,18 +131,41 @@ public:
         float imageWidth = contentMax.x - contentMin.x;
         float imageHeight = contentMax.y - contentMin.y;
 
-        SceneCamera::Instance().ProcessTargetedObject();
+        Scene::Instance().ProcessTargetedObject();
 
         ImGui::End();
 
 
         ImGui::Begin("Inspector", 0, ImGuiWindowFlags_NoScrollbar);
+        if (Globals::Instance().selectedEnt != nullptr)
+        {
+            std::vector<Component*> components = Globals::Instance().selectedEnt->GetAllComponents();
+            // Transform section
+            ImGui::Text("Transform");
+            ImGui::DragFloat3("Position", &Globals::Instance().selectedEnt->transform.worldPosition.x, 0.1f);
+            if (ImGui::DragFloat3("Rotation", &Globals::Instance().selectedEnt->transform.eulerAngles.x, 0.1f))
+            {
+                Globals::Instance().selectedEnt->transform.rotation = glm::quat(glm::radians(Globals::Instance().selectedEnt->transform.eulerAngles));
+            }
+            ImGui::DragFloat3("Scale", &Globals::Instance().selectedEnt->transform.worldScale.x, 0.1f);
+        }
         ImGui::End();
 
         ImGui::Begin("Explorer", 0, ImGuiWindowFlags_NoScrollbar);
         ImGui::End();
 
         ImGui::Begin("Entities", 0, ImGuiWindowFlags_NoScrollbar);
+        std::vector<Entity*> sceneEnts = Globals::Instance().SCENE_ENTS;
+
+        for (Entity* entity : sceneEnts) 
+        {
+            // Create a unique identifier for each entity
+            std::string label = "Entity " + std::to_string(entity->id);
+            if (ImGui::Button(label.c_str()))
+            {
+                Globals::Instance().selectedEnt = entity; // Select on click
+            }
+        }
         ImGui::End();
 
         ImGui::Render();
@@ -147,6 +188,17 @@ public:
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
+    }
+    void AddEntity()
+    {
+        Entity* ent = new Entity();
+    }
+    void AddCube()
+    {
+        Entity* ent = new Entity();
+        MeshRenderer* meshRenderer = ent->AddComponent<MeshRenderer>();
+        meshRenderer->BindMesh(Globals::Instance().cube);
+        meshRenderer->material = Globals::Instance().defaultMaterial;
     }
 private:
 	UI() {}

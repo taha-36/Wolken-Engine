@@ -1,6 +1,8 @@
 #pragma once
-#include "Component.h"
 #include "Mesh.h"
+#include "Entity.h"
+#include "SceneCamera.h"
+#include "Component.h"
 #include "Material.h"
 struct DrawSettings
 {
@@ -10,11 +12,21 @@ struct DrawSettings
 class MeshRenderer : public Component
 {
 public:
-	MeshRenderer() = default;
+
+	unsigned int VAO;
+	unsigned int posesVBO;
+	unsigned int colorsVBO;
+	unsigned int uvVBO;
+	unsigned int EBO;
 
 	DrawSettings drawSettings;
-	Mesh* mesh = nullptr;
 	Material* material = nullptr;
 
+	MeshRenderer();
+	~MeshRenderer();
 	void Render();
+	void BindMesh(Mesh* ptr);
+	void RecalculateUV();
+private:
+	Mesh* mesh = nullptr;
 };

@@ -98,6 +98,7 @@
     <None Include="Assimp\include\assimp\config.h.in" />
     <None Include="Assimp\include\assimp\module.modulemap" />
     <None Include="Assimp\include\assimp\revision.h.in" />
+    <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\Shader.h">
@@ -112,7 +113,7 @@
     <ClInclude Include="Headers\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\Entity.h">
+    <ClInclude Include="Core\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Headers\Transform.h">
@@ -160,7 +161,7 @@
     <ClInclude Include="Headers\FrameBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\Scene.h">
+    <ClInclude Include="Core\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Assimp\include\assimp\Compiler\poppack1.h">
@@ -415,7 +416,7 @@
     <ClInclude Include="Assimp\include\assimp\ZipArchiveIOSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\UI.h">
+    <ClInclude Include="Core\UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
