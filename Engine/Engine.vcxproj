@@ -110,7 +110,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>Core;Assimp/lib;src;Headers;OpenGL\lib\lib-vc2022;OpenGL\src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>Core;Assimp\lib;src;Headers;OpenGL\lib\lib-vc2022;OpenGL\src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -146,13 +146,18 @@
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\MeshRenderer.cpp" />
+    <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\cube.fbx" />
+    <None Include="Assets\cylinder.fbx" />
     <None Include="Assets\DefaultFrag.glsl" />
     <None Include="Assets\DefaultVert.glsl" />
+    <None Include="Assets\old_wooden_chair.fbx" />
+    <None Include="Assets\sphere.fbx" />
     <None Include="Assimp\include\assimp\.editorconfig" />
     <None Include="Assimp\include\assimp\color4.inl" />
     <None Include="Assimp\include\assimp\config.h.in" />
@@ -165,7 +170,15 @@
     <None Include="Assimp\include\assimp\SmoothingGroups.inl" />
     <None Include="Assimp\include\assimp\vector2.inl" />
     <None Include="Assimp\include\assimp\vector3.inl" />
+    <None Include="Assimp\lib\assimp-vc143-mtd.dll" />
+    <None Include="Assimp\lib\assimp-vc143-mtd.dll.recipe" />
+    <None Include="Assimp\lib\assimp-vc143-mtd.exp" />
+    <None Include="Assimp\lib\assimp-vc143-mtd.ilk" />
+    <None Include="Assimp\lib\assimp-vc143-mtd.pdb" />
     <None Include="imgui.ini" />
+    <None Include="OpenGL\lib\lib-vc2022\assimp-vc143-mtd.dll" />
+    <None Include="OpenGL\lib\lib-vc2022\glfw3.dll" />
+    <None Include="x64\Debug\assimp-vc143-mtd.dll" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assimp\include\assimp\aabb.h" />
@@ -262,6 +275,7 @@
     <ClInclude Include="Headers\MeshRenderer.h" />
     <ClInclude Include="Core\SceneCamera.h" />
     <ClInclude Include="Core\Scene.h" />
+    <ClInclude Include="Headers\Model.h" />
     <ClInclude Include="Headers\Shader.h" />
     <ClInclude Include="Headers\Texture.h" />
     <ClInclude Include="Headers\Transform.h" />
@@ -375,6 +389,9 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Assimp\lib\assimp-vc143-mtd.lib" />
+    <Library Include="OpenGL\lib\lib-vc2022\glfw3.lib" />
+    <Library Include="OpenGL\lib\lib-vc2022\glfw3dll.lib" />
+    <Library Include="OpenGL\lib\lib-vc2022\glfw3_mt.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

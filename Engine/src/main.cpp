@@ -14,14 +14,18 @@
 #include "Clock.h"
 #include "Globals.h"
 #include "UI.h"
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 int init(GLFWwindow*& window);
+
 int main(void)
 {
     init(Globals::Instance().WINDOW);
     Globals::Instance().InitializeDefaults();
     AssetsHandler::Instance().LoadAssets();
     UI::Instance().Initialize();
+
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(Globals::Instance().WINDOW))
     {

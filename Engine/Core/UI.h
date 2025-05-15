@@ -5,6 +5,7 @@
 #include "imgui_impl_opengl3.h"
 #include "SceneCamera.h"
 #include "MeshRenderer.h"
+#include "Model.h"
 class UI
 {
 public:
@@ -98,15 +99,27 @@ public:
         {
             if (ImGui::BeginMenu("Add"))
             {
-                if (ImGui::MenuItem("Empty Entity")) {
-                    // Handle open
+                if (ImGui::MenuItem("Empty Entity")) 
+                {
                     AddEntity();
                 }
                 if (ImGui::MenuItem("Cube")) {
                     AddCube();
                 }
-                if (ImGui::MenuItem("Material", "Ctrl+S")) {
-                    // Handle save
+                if (ImGui::MenuItem("Sphere"))
+                {
+                    AddSphere();
+                }
+                if (ImGui::MenuItem("Cylinder"))
+                {
+                    AddCylinder();
+                }
+                if (ImGui::MenuItem("Add Model"))
+                {
+                    AddModel();
+                }
+                if (ImGui::MenuItem("Material")) 
+                {
                     isCreatingMat = true;
                 }
                 ImGui::EndMenu();
@@ -141,7 +154,6 @@ public:
         if (Globals::Instance().selectedEnt != nullptr)
         {
             std::vector<Component*> components = Globals::Instance().selectedEnt->GetAllComponents();
-            // Transform section
             ImGui::Text("Transform");
             ImGui::DragFloat3("Position", &Globals::Instance().selectedEnt->transform.worldPosition.x, 0.1f);
             if (ImGui::DragFloat3("Rotation", &Globals::Instance().selectedEnt->transform.eulerAngles.x, 0.1f))
@@ -151,25 +163,7 @@ public:
             ImGui::DragFloat3("Scale", &Globals::Instance().selectedEnt->transform.worldScale.x, 0.1f);
             for (Component* comp : Globals::Instance().selectedEnt->GetAllComponents())
             {
-                ImGui::Text("Comp");
-            }
-            if (ImGui::Button("Material"))
-                ImGui::OpenPopup("MaterialsPopUp");
-
-            if (ImGui::BeginPopup("MaterialsPopUp"))
-            {
-                for (const auto& pair : AssetsHandler::Instance().MATERIALS)
-                {
-                    Material* mat = pair.second;
-                    if (ImGui::MenuItem(mat->name.c_str())) 
-                    {
-                        if (Globals::Instance().selectedEnt->GetComponent<MeshRenderer>() != nullptr)
-                        {
-                            Globals::Instance().selectedEnt->GetComponent<MeshRenderer>()->material = mat;
-                        }
-                    }
-                }
-                ImGui::EndPopup();
+                comp->Serialize();
             }
         }
         ImGui::End();
@@ -180,13 +174,13 @@ public:
         ImGui::Begin("Entities", 0, ImGuiWindowFlags_NoScrollbar);
         std::vector<Entity*> sceneEnts = Globals::Instance().SCENE_ENTS;
 
-        for (Entity* entity : sceneEnts) 
+        for (Entity* entity : sceneEnts)
         {
             // Create a unique identifier for each entity
             std::string label = "Entity " + std::to_string(entity->id);
             if (ImGui::Button(label.c_str()))
             {
-                Globals::Instance().selectedEnt = entity; // Select on click
+                Globals::Instance().selectedEnt = entity;
             }
         }
         ImGui::End();
@@ -241,12 +235,35 @@ public:
         meshRenderer->BindMesh(Globals::Instance().cube);
         meshRenderer->material = Globals::Instance().defaultMaterial;
     }
+    void AddSphere()
+    {
+        Entity* ent = new Entity();
+        MeshRenderer* meshRenderer = ent->AddComponent<MeshRenderer>();
+        meshRenderer->BindMesh(Globals::Instance().sphere);
+        meshRenderer->material = Globals::Instance().defaultMaterial;
+    }
+    void AddCylinder()
+    {
+        Entity* ent = new Entity();
+        MeshRenderer* meshRenderer = ent->AddComponent<MeshRenderer>();
+        meshRenderer->BindMesh(Globals::Instance().cylinder);
+        meshRenderer->material = Globals::Instance().defaultMaterial;
+    }
     void AddMaterial(std::string path, glm::vec3 _mainColor)
     {
         Material* mat = new Material(path);
         mat->shader = Globals::Instance().defaultShader;
         mat->mainColor = _mainColor;
         mat->Serialize();
+    }
+    void AddModel()
+    {
+        //Importing Model Shit
+        Model* model = new Model("assets/sphere.fbx");
+        Entity* ent = new Entity();
+        MeshRenderer* meshRenderer = ent->AddComponent<MeshRenderer>();
+        meshRenderer->BindMesh(model->meshes[0]);
+        meshRenderer->material = Globals::Instance().defaultMaterial;
     }
 private:
 	UI() 

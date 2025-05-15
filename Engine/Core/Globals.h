@@ -4,8 +4,7 @@
 #include <vector>
 #include "Mesh.h"
 #include "Material.h"
-
-
+#include "Model.h"
 class Entity;
 class Globals {
 public:
@@ -22,100 +21,9 @@ public:
     Entity* selectedEnt = nullptr;
 
     //Defaults
-    std::vector<float> poses = {
-        //front
-        -0.5f, -0.5f, 0.5f,     //bottom left
-        -0.5f,  0.5f, 0.5f,     //top left
-         0.5f, -0.5f, 0.5f,     //bottom right
-         0.5f,  0.5f, 0.5f,     //top right
-
-         //back
-         -0.5f, -0.5f, -0.5f,     //bottom left
-         -0.5f,  0.5f, -0.5f,     //top left
-          0.5f, -0.5f, -0.5f,     //bottom right
-          0.5f,  0.5f, -0.5f,     //top right
-
-          //left
-          -0.5f, -0.5f, -0.5f,     //bottom left
-          -0.5f,  0.5f, -0.5f,     //top left
-          -0.5f, -0.5f, 0.5f,     //bottom right
-          -0.5f,  0.5f, 0.5f,     //top right
-
-          //right
-           0.5f, -0.5f, -0.5f,     //bottom left
-           0.5f,  0.5f, -0.5f,     //top left
-           0.5f, -0.5f, 0.5f,     //bottom right
-           0.5f,  0.5f, 0.5f,     //top right
-
-           //top
-          -0.5f,  0.5f, 0.5f,     //bottom left
-          -0.5f,  0.5f,-0.5f,     //top left
-           0.5f,  0.5f, 0.5f,     //bottom right
-           0.5f,  0.5f,-0.5f,     //top right
-
-           //bottom
-          -0.5f, -0.5f, 0.5f,     //bottom left
-          -0.5f, -0.5f, -0.5f,     //top left
-           0.5f, -0.5f, 0.5f,     //bottom right
-           0.5f, -0.5f, -0.5f,     //top right
-    };
-    std::vector<unsigned int> indices = {
-        // Front face
-        0, 1, 2,
-        1, 3, 2,
-
-        // Back face
-        4, 6, 5,
-        5, 6, 7,
-
-        // Left face
-        8, 9,10,
-        9,11,10,
-
-        // Right face
-        12,14,13,
-        13,14,15,
-
-        // Top face
-        16,17,18,
-        17,19,18,
-
-        // Bottom face
-        20,22,21,
-        21,22,23
-    };
-    std::vector<float> uv = {
-    0.0f, 0.0f,
-    0.0f, 1.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-
-    0.0f, 0.0f,
-    0.0f, 1.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-
-    0.0f, 0.0f,
-    0.0f, 1.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-
-    0.0f, 0.0f,
-    0.0f, 1.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-
-    0.0f, 0.0f,
-    0.0f, 1.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-
-    0.0f, 0.0f,
-    0.0f, 1.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-    };
     Mesh* cube = nullptr;
+    Mesh* cylinder = nullptr;
+    Mesh* sphere = nullptr;
 
     Material* defaultMaterial = nullptr;
 
@@ -128,10 +36,13 @@ public:
 
     void InitializeDefaults()
     {
-        //Set Default Cube
-        this->cube = new Mesh(poses, indices);
-        this->cube->uv = uv;
+        Model* cubeModel = new Model("assets/cube.fbx");
+        Model* sphereModel = new Model("assets/sphere.fbx");
+        Model* cylinderModel = new Model("assets/cylinder.fbx");
 
+        this->cube = cubeModel->meshes[0];
+        this->sphere = sphereModel->meshes[0];
+        this->cylinder = cylinderModel->meshes[0];
 
         //Set Default Shader
         this->defaultShader = new Shader("assets/DefaultShader.json", "assets/DefaultVert.glsl", "assets/DefaultFrag.glsl");
@@ -139,6 +50,7 @@ public:
         //Set Default Material
         this->defaultMaterial = new Material("assets/DefaultMaterial.json");
         this->defaultMaterial->shader = this->defaultShader;
+
     }
     ~Globals() {
         CleanupResources();

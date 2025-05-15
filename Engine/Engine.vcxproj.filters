@@ -72,6 +72,9 @@
     <ClCompile Include="src\AssetsHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\DefaultFrag.glsl" />
@@ -105,6 +108,18 @@
     <None Include="Assimp\include\assimp\module.modulemap" />
     <None Include="Assimp\include\assimp\revision.h.in" />
     <None Include="imgui.ini" />
+    <None Include="Assimp\lib\assimp-vc143-mtd.dll" />
+    <None Include="x64\Debug\assimp-vc143-mtd.dll" />
+    <None Include="OpenGL\lib\lib-vc2022\assimp-vc143-mtd.dll" />
+    <None Include="OpenGL\lib\lib-vc2022\glfw3.dll" />
+    <None Include="Assets\old_wooden_chair.fbx" />
+    <None Include="Assimp\lib\assimp-vc143-mtd.dll.recipe" />
+    <None Include="Assimp\lib\assimp-vc143-mtd.exp" />
+    <None Include="Assimp\lib\assimp-vc143-mtd.ilk" />
+    <None Include="Assimp\lib\assimp-vc143-mtd.pdb" />
+    <None Include="Assets\sphere.fbx" />
+    <None Include="Assets\cylinder.fbx" />
+    <None Include="Assets\cube.fbx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\Shader.h">
@@ -704,6 +719,9 @@
     <ClInclude Include="Core\AssetsHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Headers\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\images.jpeg">
@@ -718,5 +736,8 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Assimp\lib\assimp-vc143-mtd.lib" />
+    <Library Include="OpenGL\lib\lib-vc2022\glfw3.lib" />
+    <Library Include="OpenGL\lib\lib-vc2022\glfw3_mt.lib" />
+    <Library Include="OpenGL\lib\lib-vc2022\glfw3dll.lib" />
   </ItemGroup>
 </Project>

@@ -4,5 +4,10 @@ class Component {
 public:
     virtual ~Component() = default;
 
+    virtual void Serialize()
+    {
+
+    };
+
     Entity* owner = nullptr;
 };

@@ -7,6 +7,8 @@ Mesh::Mesh(std::vector<float> vertsPoses, std::vector<unsigned int> indicies, st
 
     vertCount = vertsPoses.size();
     indexCount = indices.size();
+    std::vector<float> _uvs(vertCount, 0.0f);
+    this->uv = _uvs;
 
     useVertsColors = true;
 }

@@ -1,0 +1,10 @@
+{
+    "Main Color": [
+        0.036609187722206116,
+        0.4911286234855652,
+        0.7237354516983032
+    ],
+    "Material Path": "assets/mat.json",
+    "Name": "mat",
+    "Shader Path": "assets/DefaultShader.json"
+}

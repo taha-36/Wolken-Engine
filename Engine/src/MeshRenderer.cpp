@@ -128,3 +128,36 @@ void MeshRenderer::RecalculateUV()
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(0));
     glEnableVertexAttribArray(2);
 }
+void MeshRenderer::Serialize()
+{
+    if (ImGui::CollapsingHeader("MeshRenderer"))
+    {
+        ImGui::BeginChild("Material", ImVec2(0, 100), true);
+
+        ImGui::Text("Material");
+        ImGui::SameLine();
+
+
+        if (ImGui::Selectable(material->name.c_str(), false))
+        {
+            ImGui::OpenPopup("MaterialsPopUp");
+        }
+
+        if (ImGui::BeginPopup("MaterialsPopUp"))
+        {
+            for (const auto& pair : AssetsHandler::Instance().MATERIALS)
+            {
+                Material* mat = pair.second;
+                if (ImGui::MenuItem(mat->name.c_str()))
+                {
+                    if (Globals::Instance().selectedEnt->GetComponent<MeshRenderer>() != nullptr)
+                    {
+                        Globals::Instance().selectedEnt->GetComponent<MeshRenderer>()->material = mat;
+                    }
+                }
+            }
+            ImGui::EndPopup();
+        }
+        ImGui::EndChild();
+    }
+}
