@@ -23,6 +23,7 @@ void MeshRenderer::Render()
     material->shader->setUInt("id", this->owner->id);
     int useTexture = material->texture ? 1 : 0;
     material->shader->setInt("useTex", useTexture);
+    material->shader->setVec3("mainColor", material->mainColor);
     if (useTexture)
     {
         glActiveTexture(GL_TEXTURE0);

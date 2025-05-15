@@ -1,0 +1,10 @@
+{
+    "Main Color": [
+        0.7311828136444092,
+        0.09434616565704346,
+        0.09434616565704346
+    ],
+    "Material Path": "assets/boymat.json",
+    "Name": "boymat",
+    "Shader Path": "assets/DefaultShader.json"
+}

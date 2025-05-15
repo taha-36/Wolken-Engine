@@ -1,13 +1,10 @@
 #include"Texture.h"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <KHR/khrplatform.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
-#include <iostream>
 Texture::Texture(const char* texturePath)
 {
+    path = texturePath;
+
     //textures
     glGenTextures(1, &texId);
     glBindTexture(GL_TEXTURE_2D, texId);
@@ -32,4 +29,33 @@ Texture::Texture(const char* texturePath)
     {
         std::cout << "Failed to load texture" << std::endl;
     }
+}
+nlohmann::json Texture::Serialize() const
+{
+    nlohmann::json j = {
+        "path", path
+    };
+
+    std::string path = "assets/texture.json";
+    std::filesystem::path filePath(path);
+    std::filesystem::path dirPath = filePath.parent_path();
+
+
+    // Ensure the directory exists
+    if (!std::filesystem::exists(dirPath))
+    {
+        std::filesystem::create_directories(dirPath);
+    }
+
+    std::ofstream file(path);
+    if (file.is_open())
+    {
+        file << j.dump(4);
+        file.close();
+    }
+    else
+    {
+        std::cerr << "Failed to open file" << "\n";
+    }
+    return j;
 }

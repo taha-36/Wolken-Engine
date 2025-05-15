@@ -81,7 +81,7 @@ public:
         lastX = xpos;
         lastY = ypos;
 
-        float sensitivity = 40.0f;
+        float sensitivity = 10.0f;
         xoffset *= sensitivity * Clock::Instance().deltaTime;
         yoffset *= sensitivity * Clock::Instance().deltaTime;
 

@@ -104,7 +104,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Assimp/include;Core;imgui;Headers;OpenGL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Nlohmann;Assimp/include;Core;imgui;Headers;OpenGL\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,8 +140,10 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="OpenGL\src\glad.c" />
+    <ClCompile Include="src\AssetsHandler.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\MeshRenderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -250,6 +253,7 @@
     <ClInclude Include="Assimp\include\assimp\XMLTools.h" />
     <ClInclude Include="Assimp\include\assimp\ZipArchiveIOSystem.h" />
     <ClInclude Include="Core\Clock.h" />
+    <ClInclude Include="Core\AssetsHandler.h" />
     <ClInclude Include="Headers\Component.h" />
     <ClInclude Include="Core\Entity.h" />
     <ClInclude Include="Headers\FrameBuffer.h" />
@@ -271,6 +275,98 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="nlohmann\adl_serializer.hpp" />
+    <ClInclude Include="nlohmann\byte_container_with_subtype.hpp" />
+    <ClInclude Include="nlohmann\detail\abi_macros.hpp" />
+    <ClInclude Include="nlohmann\detail\conversions\from_json.hpp" />
+    <ClInclude Include="nlohmann\detail\conversions\to_chars.hpp" />
+    <ClInclude Include="nlohmann\detail\conversions\to_json.hpp" />
+    <ClInclude Include="nlohmann\detail\exceptions.hpp" />
+    <ClInclude Include="nlohmann\detail\hash.hpp" />
+    <ClInclude Include="nlohmann\detail\input\binary_reader.hpp" />
+    <ClInclude Include="nlohmann\detail\input\input_adapters.hpp" />
+    <ClInclude Include="nlohmann\detail\input\json_sax.hpp" />
+    <ClInclude Include="nlohmann\detail\input\lexer.hpp" />
+    <ClInclude Include="nlohmann\detail\input\parser.hpp" />
+    <ClInclude Include="nlohmann\detail\input\position_t.hpp" />
+    <ClInclude Include="nlohmann\detail\iterators\internal_iterator.hpp" />
+    <ClInclude Include="nlohmann\detail\iterators\iteration_proxy.hpp" />
+    <ClInclude Include="nlohmann\detail\iterators\iterator_traits.hpp" />
+    <ClInclude Include="nlohmann\detail\iterators\iter_impl.hpp" />
+    <ClInclude Include="nlohmann\detail\iterators\json_reverse_iterator.hpp" />
+    <ClInclude Include="nlohmann\detail\iterators\primitive_iterator.hpp" />
+    <ClInclude Include="nlohmann\detail\json_custom_base_class.hpp" />
+    <ClInclude Include="nlohmann\detail\json_pointer.hpp" />
+    <ClInclude Include="nlohmann\detail\json_ref.hpp" />
+    <ClInclude Include="nlohmann\detail\macro_scope.hpp" />
+    <ClInclude Include="nlohmann\detail\macro_unscope.hpp" />
+    <ClInclude Include="nlohmann\detail\meta\call_std\begin.hpp" />
+    <ClInclude Include="nlohmann\detail\meta\call_std\end.hpp" />
+    <ClInclude Include="nlohmann\detail\meta\cpp_future.hpp" />
+    <ClInclude Include="nlohmann\detail\meta\detected.hpp" />
+    <ClInclude Include="nlohmann\detail\meta\identity_tag.hpp" />
+    <ClInclude Include="nlohmann\detail\meta\is_sax.hpp" />
+    <ClInclude Include="nlohmann\detail\meta\std_fs.hpp" />
+    <ClInclude Include="nlohmann\detail\meta\type_traits.hpp" />
+    <ClInclude Include="nlohmann\detail\meta\void_t.hpp" />
+    <ClInclude Include="nlohmann\detail\output\binary_writer.hpp" />
+    <ClInclude Include="nlohmann\detail\output\output_adapters.hpp" />
+    <ClInclude Include="nlohmann\detail\output\serializer.hpp" />
+    <ClInclude Include="nlohmann\detail\string_concat.hpp" />
+    <ClInclude Include="nlohmann\detail\string_escape.hpp" />
+    <ClInclude Include="nlohmann\detail\string_utils.hpp" />
+    <ClInclude Include="nlohmann\detail\value_t.hpp" />
+    <ClInclude Include="nlohmann\json.hpp" />
+    <ClInclude Include="nlohmann\json_fwd.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\adl_serializer.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\byte_container_with_subtype.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\abi_macros.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\conversions\from_json.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\conversions\to_chars.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\conversions\to_json.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\exceptions.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\hash.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\input\binary_reader.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\input\input_adapters.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\input\json_sax.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\input\lexer.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\input\parser.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\input\position_t.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\iterators\internal_iterator.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\iterators\iteration_proxy.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\iterators\iterator_traits.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\iterators\iter_impl.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\iterators\json_reverse_iterator.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\iterators\primitive_iterator.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\json_custom_base_class.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\json_pointer.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\json_ref.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\macro_scope.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\macro_unscope.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\meta\call_std\begin.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\meta\call_std\end.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\meta\cpp_future.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\meta\detected.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\meta\identity_tag.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\meta\is_sax.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\meta\std_fs.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\meta\type_traits.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\meta\void_t.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\output\binary_writer.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\output\output_adapters.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\output\serializer.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\string_concat.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\string_escape.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\string_utils.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\detail\value_t.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\json.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\ordered_map.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\thirdparty\hedley\hedley.hpp" />
+    <ClInclude Include="Nlohmann\nlohmann\thirdparty\hedley\hedley_undef.hpp" />
+    <ClInclude Include="nlohmann\ordered_map.hpp" />
+    <ClInclude Include="nlohmann\thirdparty\hedley\hedley.hpp" />
+    <ClInclude Include="nlohmann\thirdparty\hedley\hedley_undef.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\images.jpeg" />

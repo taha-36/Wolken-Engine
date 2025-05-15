@@ -3,12 +3,12 @@
 #include "imgui_internal.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "Globals.h"
 #include "SceneCamera.h"
 #include "MeshRenderer.h"
 class UI
 {
 public:
+    bool isCreatingMat;
 	static UI& Instance()
 	{
 		static UI instance;
@@ -107,6 +107,7 @@ public:
                 }
                 if (ImGui::MenuItem("Material", "Ctrl+S")) {
                     // Handle save
+                    isCreatingMat = true;
                 }
                 ImGui::EndMenu();
             }
@@ -148,6 +149,28 @@ public:
                 Globals::Instance().selectedEnt->transform.rotation = glm::quat(glm::radians(Globals::Instance().selectedEnt->transform.eulerAngles));
             }
             ImGui::DragFloat3("Scale", &Globals::Instance().selectedEnt->transform.worldScale.x, 0.1f);
+            for (Component* comp : Globals::Instance().selectedEnt->GetAllComponents())
+            {
+                ImGui::Text("Comp");
+            }
+            if (ImGui::Button("Material"))
+                ImGui::OpenPopup("MaterialsPopUp");
+
+            if (ImGui::BeginPopup("MaterialsPopUp"))
+            {
+                for (const auto& pair : AssetsHandler::Instance().MATERIALS)
+                {
+                    Material* mat = pair.second;
+                    if (ImGui::MenuItem(mat->name.c_str())) 
+                    {
+                        if (Globals::Instance().selectedEnt->GetComponent<MeshRenderer>() != nullptr)
+                        {
+                            Globals::Instance().selectedEnt->GetComponent<MeshRenderer>()->material = mat;
+                        }
+                    }
+                }
+                ImGui::EndPopup();
+            }
         }
         ImGui::End();
 
@@ -168,6 +191,24 @@ public:
         }
         ImGui::End();
 
+        if (isCreatingMat)
+        {
+            ImGui::Begin("Material", 0, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse);
+
+            static char buffer[64] = "";
+            static ImVec4 selectedColor = ImVec4(1.0f, 0.5f, 0.2f, 1.0f);
+            ImGui::InputText("Name", buffer, IM_ARRAYSIZE(buffer));
+            ImGui::ColorPicker4("##picker", (float*)&selectedColor,
+                ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_AlphaBar);
+            std::string path = "assets/" + std::string(buffer) + ".json";
+            if (ImGui::Button("Create") && !std::string(buffer).empty() && !std::filesystem::exists(path))
+            {
+                AddMaterial(path, glm::vec3(selectedColor.x, selectedColor.y, selectedColor.z));
+                isCreatingMat = false;
+            }
+
+            ImGui::End();
+        }
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -200,6 +241,16 @@ public:
         meshRenderer->BindMesh(Globals::Instance().cube);
         meshRenderer->material = Globals::Instance().defaultMaterial;
     }
+    void AddMaterial(std::string path, glm::vec3 _mainColor)
+    {
+        Material* mat = new Material(path);
+        mat->shader = Globals::Instance().defaultShader;
+        mat->mainColor = _mainColor;
+        mat->Serialize();
+    }
 private:
-	UI() {}
+	UI() 
+    {
+        isCreatingMat = false;
+    }
 };

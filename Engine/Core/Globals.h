@@ -5,15 +5,15 @@
 #include "Mesh.h"
 #include "Material.h"
 
-class Entity;
 
+class Entity;
 class Globals {
 public:
-    unsigned int SCR_WIDTH = 800;
-    unsigned int SCR_HEIGHT = 800;
+    unsigned int SCR_WIDTH;
+    unsigned int SCR_HEIGHT;
 
-    unsigned int sceneWidth = 800;
-    unsigned int sceneHeight = 800;
+    unsigned int sceneWidth;
+    unsigned int sceneHeight;
     
     bool Can_MoveScene = false;
     std::vector<Entity*> SCENE_ENTS;
@@ -134,10 +134,10 @@ public:
 
 
         //Set Default Shader
-        this->defaultShader = new Shader("assets/DefaultVert.glsl", "assets/DefaultFrag.glsl");
+        this->defaultShader = new Shader("assets/DefaultShader.json", "assets/DefaultVert.glsl", "assets/DefaultFrag.glsl");
 
         //Set Default Material
-        this->defaultMaterial = new Material();
+        this->defaultMaterial = new Material("assets/DefaultMaterial.json");
         this->defaultMaterial->shader = this->defaultShader;
     }
     ~Globals() {

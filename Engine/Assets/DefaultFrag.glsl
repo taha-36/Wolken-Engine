@@ -6,6 +6,7 @@ in vec3 ourColor;
 in vec2 TexCoord;
 
 uniform uint id;
+uniform uint alpha;
 uniform int isSelected;
 uniform int useTex;
 uniform sampler2D texture1;

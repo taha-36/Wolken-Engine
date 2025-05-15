@@ -8,6 +8,7 @@ uniform mat4 view;
 uniform mat4 proj;
 uniform int useTex;
 uniform bool useVertsColors;
+uniform vec3 mainColor;
 
 out vec3 ourColor;
 out vec2 TexCoord;
@@ -21,7 +22,7 @@ void main()
 	}
 	else
 	{
-		ourColor = vec3(1.0,1.0,1.0);
+		ourColor = mainColor;
 	}
 	TexCoord = aTexCoord;
 }

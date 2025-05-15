@@ -11,7 +11,22 @@ class Entity {
 public:
     Transform transform;
     unsigned int id;
-
+    Entity()
+    {
+        Globals::Instance().SCENE_ENTS.push_back(this);
+        id = rand();
+    }
+    ~Entity()
+    {
+        for (size_t i = 0; i < Globals::Instance().SCENE_ENTS.size(); i++)
+        {
+            if (Globals::Instance().SCENE_ENTS[i]->id == this->id);
+            {
+                Globals::Instance().SCENE_ENTS.erase(Globals::Instance().SCENE_ENTS.begin() + i);
+            }
+        }
+        delete this;
+    }
     template <typename T, typename... Args>
     T* AddComponent(Args&&... args) {
         static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
@@ -53,11 +68,6 @@ public:
 
     const std::vector<Component*>& GetAllComponents() const {
         return orderedComponents;
-    }
-    Entity()
-    {
-        Globals::Instance().SCENE_ENTS.push_back(this);
-        id = rand();
     }
 private:
     std::unordered_map<std::type_index, std::unique_ptr<Component>> components;

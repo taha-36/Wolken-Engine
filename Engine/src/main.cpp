@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <KHR/khrplatform.h>
 #include <iostream>
+#include <fstream>
 #include "Shader.h"
 #include "Mesh.h"
 #include "Material.h"
@@ -19,7 +20,7 @@ int main(void)
 {
     init(Globals::Instance().WINDOW);
     Globals::Instance().InitializeDefaults();
-
+    AssetsHandler::Instance().LoadAssets();
     UI::Instance().Initialize();
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(Globals::Instance().WINDOW))
@@ -51,8 +52,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 int init(GLFWwindow*& window)
 {
-    Globals::Instance().SCR_WIDTH = 1920;
-    Globals::Instance().SCR_HEIGHT = 1080;
+    Globals::Instance().SCR_WIDTH = 1280;
+    Globals::Instance().SCR_HEIGHT = 720;
     Globals::Instance().sceneWidth = Globals::Instance().SCR_WIDTH;
     Globals::Instance().sceneHeight = Globals::Instance().SCR_HEIGHT;
 
@@ -75,9 +76,8 @@ int init(GLFWwindow*& window)
     }
 
     /* Make the window's context current */
-    glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(0);
+    glfwSwapInterval(1);
 
     // Load OpenGL function pointers
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {

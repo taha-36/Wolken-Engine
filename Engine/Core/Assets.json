@@ -1,0 +1,7 @@
+{
+    "Materials": [
+        "assets/maty.json",
+        "assets/boymat.json"
+    ],
+    "Shaders": null
+}

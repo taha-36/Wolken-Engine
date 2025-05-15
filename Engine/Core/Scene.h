@@ -72,12 +72,6 @@ public:
         // 5. Set draw buffers again (needed)
         GLenum drawBuffers[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
         glDrawBuffers(2, drawBuffers);
-
-        // 6. Check if complete
-        GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-        if (status != GL_FRAMEBUFFER_COMPLETE) {
-            std::cout << "Framebuffer not complete! Status: " << status << std::endl;
-        }
     }
     void ProcessTargetedObject()
     {
