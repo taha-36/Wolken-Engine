@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="Core\Globals.h" />
     <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\ImGuiFileDialog.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_impl_glfw.cpp" />
@@ -282,6 +283,8 @@
     <ClInclude Include="Core\UI.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\ImGuiFileDialog.h" />
+    <ClInclude Include="imgui\ImGuiFileDialogConfig.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />
     <ClInclude Include="imgui\imgui_impl_opengl3.h" />
     <ClInclude Include="imgui\imgui_impl_opengl3_loader.h" />
@@ -386,6 +389,8 @@
     <Image Include="Assets\images.jpeg" />
     <Image Include="Assets\tex.jpg" />
     <Image Include="Assets\wood.jpg" />
+    <Image Include="Core\file.png" />
+    <Image Include="Core\folder.png" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Assimp\lib\assimp-vc143-mtd.lib" />

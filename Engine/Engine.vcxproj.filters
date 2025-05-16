@@ -75,6 +75,9 @@
     <ClCompile Include="src\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="imgui\ImGuiFileDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\DefaultFrag.glsl" />
@@ -722,6 +725,12 @@
     <ClInclude Include="Headers\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="imgui\ImGuiFileDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\ImGuiFileDialogConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\images.jpeg">
@@ -731,6 +740,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Assets\tex.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Core\folder.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Core\file.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

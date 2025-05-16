@@ -3,13 +3,20 @@
 #include "imgui_internal.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "ImGuiFileDialog.h"
 #include "SceneCamera.h"
 #include "MeshRenderer.h"
 #include "Model.h"
+#include <stb/stb_image.h>
 class UI
 {
 public:
     bool isCreatingMat;
+    std::filesystem::path path;
+    GLuint folderTex;
+    GLuint fileTex;
+    GLuint backTex;
+
 	static UI& Instance()
 	{
 		static UI instance;
@@ -21,11 +28,16 @@ public:
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO();
-        //io.IniFilename = nullptr;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		ImGui::StyleColorsDark();
 		ImGui_ImplGlfw_InitForOpenGL(Globals::Instance().WINDOW, true);
 		ImGui_ImplOpenGL3_Init("#version 330 core");
+
+        CreateTexture("core/folder.png", folderTex);
+        CreateTexture("core/file.png", fileTex);
+        CreateTexture("core/back.png", backTex);
+
+        path = std::filesystem::current_path();
 	}
 	void Render()
 	{
@@ -128,6 +140,7 @@ public:
             ImGui::EndMainMenuBar();
         }
 
+        /*...............................................................................................Scene...............................................................................................*/
         ImGui::Begin("Scene", 0, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
         if (ImGui::IsWindowHovered())
         {
@@ -149,7 +162,7 @@ public:
 
         ImGui::End();
 
-
+        /*...............................................................................................Inspector...............................................................................................*/
         ImGui::Begin("Inspector", 0, ImGuiWindowFlags_NoScrollbar);
         if (Globals::Instance().selectedEnt != nullptr)
         {
@@ -168,9 +181,41 @@ public:
         }
         ImGui::End();
 
+        /*...............................................................................................Explorer...............................................................................................*/
         ImGui::Begin("Explorer", 0, ImGuiWindowFlags_NoScrollbar);
+
+        ImGui::BeginChild("LeftPane", ImVec2(200, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
+        static std::filesystem::path _path = std::filesystem::current_path();
+        ShowDirectoryRecursive(_path);
+
+        ImGui::EndChild();
+
+
+
+
+        ImGui::SameLine();
+        ImGui::BeginChild("RightPane", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
+
+        ImTextureID backIcon = (ImTextureID)(intptr_t)backTex;
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.2f, 0.5f, 1.0f, 0.3f));
+        if (ImGui::ImageButton("Back", backIcon, ImVec2(25, 25)))
+        {
+            if (std::filesystem::exists(path.parent_path()))
+            {
+                path = path.parent_path();
+            }
+        }
+        ImGui::PopStyleColor(3);
+
+        ShowCurrentDirectory();
+
+        ImGui::EndChild();
+
         ImGui::End();
 
+        /*...............................................................................................Hierarchy...............................................................................................*/
         ImGui::Begin("Entities", 0, ImGuiWindowFlags_NoScrollbar);
         std::vector<Entity*> sceneEnts = Globals::Instance().SCENE_ENTS;
 
@@ -185,6 +230,8 @@ public:
         }
         ImGui::End();
 
+
+        /*...............................................................................................Creating Material...............................................................................................*/
         if (isCreatingMat)
         {
             ImGui::Begin("Material", 0, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse);
@@ -217,6 +264,8 @@ public:
             }
         }
 	}
+
+
     void CleanUI()
     {
         Scene::Instance().Clean();
@@ -259,12 +308,91 @@ public:
     void AddModel()
     {
         //Importing Model Shit
-        Model* model = new Model("assets/sphere.fbx");
+        Model* model = new Model("assets/old_wooden_chair.fbx");
         Entity* ent = new Entity();
         MeshRenderer* meshRenderer = ent->AddComponent<MeshRenderer>();
         meshRenderer->BindMesh(model->meshes[0]);
         meshRenderer->material = Globals::Instance().defaultMaterial;
     }
+
+    void ShowDirectoryRecursive(const std::filesystem::path& path) {
+        for (const auto& entry : std::filesystem::directory_iterator(path)) {
+            const std::string name = entry.path().filename().string();
+
+            if (entry.is_directory())
+            {
+                if (ImGui::TreeNode(name.c_str())) 
+                {
+                    ShowDirectoryRecursive(entry.path());
+                    ImGui::TreePop();
+                }
+            }
+            else
+            {
+                ImGui::BulletText("%s", name.c_str());
+            }
+        }
+    }
+    void ShowCurrentDirectory()
+    {
+        ImTextureID folderIcon = (ImTextureID)(intptr_t)folderTex;
+        ImTextureID fileIcon = (ImTextureID)(intptr_t)fileTex;
+        for (const auto& entry : std::filesystem::directory_iterator(path))
+        {
+            const std::string name = entry.path().filename().string();
+
+            ImGui::SameLine();
+            ImGui::BeginGroup();
+
+            ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.5f, 0.5f));
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0));
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.2f, 0.5f, 1.0f, 0.3f));
+            if (entry.is_directory())
+            {
+                if (ImGui::ImageButton(name.c_str(), folderIcon, ImVec2(60, 60)))
+                {
+
+                }
+                if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) 
+                {
+                    path = entry;
+                }
+            }
+            else
+            {
+                if (ImGui::ImageButton(name.c_str(), fileIcon, ImVec2(60, 60)))
+                {
+
+                }
+            }
+            ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + 60);
+            ImGui::TextWrapped("%s", name.c_str());
+            ImGui::PopTextWrapPos();
+            ImGui::PopStyleColor(3);
+            ImGui::PopStyleVar();
+
+            ImGui::EndGroup();
+        }
+    }
+
+    void CreateTexture(std::string path, GLuint& texture)
+    {
+        int width, height, channels;
+        unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+        stbi_image_free(data);
+    }
+
 private:
 	UI() 
     {
